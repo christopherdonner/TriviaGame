@@ -1,0 +1,9 @@
+.possibleAnswers 
+{
+    padding: 10px;
+}
+
+.possibleAnswers:hover 
+{
+    background-color: red;
+}

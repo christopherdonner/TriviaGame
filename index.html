@@ -12,13 +12,23 @@
 </head>
 <header>
     <jumbotron>
-
+        <h1 class="display-4">Trivia Game!</h1>
     </jumbotron>
 </header>
 <body>
-    <div id="playArea"></div>
-    <div id="question"></div>
-    
+    <div class="container" id="playArea">
+        <div class="row" id="question">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4">QUESTION
+                <div class="row">
+                    <div class="possibleAnswers" id="possibleAnswer1">possibleAnswer1</div>
+                    <div class="possibleAnswers" id="possibleAnswer2">possibleAnswer2</div>
+                    <div class="possibleAnswers" id="possibleAnswer3">possibleAnswer3</div>
+                    <div class="possibleAnswers" id="possibleAnswer4">possibleAnswer4</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="assets/javascript/game.js"></script>
 </html>

@@ -71,6 +71,14 @@ var question9 =
     questionTimer: 60
 }
 
+function pickQuestion()
+{
+    //random number 0-9
+}
 
+function questionExpires()
+{
 
+}
 
+setTimeout(questionExpires, 1000*questionTimoeout)
