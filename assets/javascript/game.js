@@ -1,7 +1,7 @@
 var questionTimoeout = 10;
 var clockRunning=false
 var count=questionTimoeout
-var questionExpired=false
+var expired=false
 var currentQuestion=""
 
 var question0 = 
@@ -81,26 +81,34 @@ var questionObject = {
 function pickQuestion()
 {
     //random number 0-9
-    var randomInt=Math.round(Math.random() *10)
+    var randomInt=Math.floor(Math.random() *10)
     console.log(randomInt)
     currentQuestion=questionList[randomInt]
-    //console.log(questionList)
     console.log(currentQuestion.question)
 }
 
 function drawQuestion()
 {
     $("#question").text(currentQuestion.question)
-    $("#possibleAnswer1").text(currentQuestion.possibleAnswers[0])
-    $("#possibleAnswer1").text(currentQuestion.possibleAnswers[1])
-    $("#possibleAnswer1").text(currentQuestion.possibleAnswers[2])
-    $("#possibleAnswer1").text(currentQuestion.possibleAnswers[3])
+    $("#possibleAnswer0.possibleAnswers").text(currentQuestion.possibleAnswers[0])
+    $("#possibleAnswer1.possibleAnswers").text(currentQuestion.possibleAnswers[1])
+    $("#possibleAnswer2.possibleAnswers").text(currentQuestion.possibleAnswers[2])
+    $("#possibleAnswer3.possibleAnswers").text(currentQuestion.possibleAnswers[3])
+}
+
+function questionExpired()
+{
+    alert("too slow")
+    expired=true;
+    pickQuestion();
+    drawQuestion();
 }
 
 window.onload = function() {
 
 $("#startButton").on("click", function(){
     console.log("start");
+    count=questionTimoeout;
     clockRunning=true;
     console.log(clockRunning)
     setInterval(function(){
@@ -126,7 +134,21 @@ $("#startButton").on("click", function(){
 })
 console.log(clockRunning)
 
+$("#possibleAnswer0.possibleAnswers").on("click", function(){
+    console.log("possibleAnswer0")
+});
 
+$("#possibleAnswer1.possibleAnswers").on("click", function(){
+    console.log("possibleAnswer1")
+});
+
+$("#possibleAnswer2.possibleAnswers").on("click", function(){
+    console.log("possibleAnswer2")
+});
+
+$("#possibleAnswer3.possibleAnswers").on("click", function(){
+    console.log("possibleAnswer3")
+});
 //setInterval(function(){timer.time--}, 1000)
 }
 

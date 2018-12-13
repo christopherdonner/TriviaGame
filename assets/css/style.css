@@ -1,7 +1,4 @@
-.possibleAnswers 
-{
-    padding: 10px;
-}
+
 
 .possibleAnswers:hover 
 {
@@ -10,6 +7,11 @@
 
 div
 {
-    border-style: dashed;
+    border-style: solid;
     color: grey
+}
+
+jumbotron
+{
+    text-align: center  
 }

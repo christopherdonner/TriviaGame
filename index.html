@@ -17,26 +17,40 @@
 </header>
 <body>
     <div class="container" id="playArea">
-        <div class="row" id="question">
+        <div class="row">
             <div class="col-lg-2" id="timer"></div>
             <div class="col-lg-4">
                 <div class="row">
                         <div class="col-lg-2"></div>
-                        <div class="col-lg-4">QUESTION</div>
+                        <div class="col-lg-4" id="question">QUESTION</div>
+                </div>
                     <div class="row">
-                        <div class="possibleAnswers" id="possibleAnswer0">possibleAnswer1</div>
-                        <div class="possibleAnswers" id="possibleAnswer1">possibleAnswer2</div>
-                        <div class="possibleAnswers" id="possibleAnswer2">possibleAnswer3</div>
-                        <div class="possibleAnswers" id="possibleAnswer3">possibleAnswer4</div>
+                        <div class="col-md-6">
+                            <div class="possibleAnswers" id="possibleAnswer0"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="possibleAnswers" id="possibleAnswer1"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-md-6">
+                        <div class="possibleAnswers" id="possibleAnswer2"></div>
+                            </div>
+                            <div class="col-md-6">
+                        <div class="possibleAnswers" id="possibleAnswer3"></div>
+                    </div>
                     </div>
                 </div>
             </div>
-        </div>
+        
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-2">
                 <button type="button" class="btn btn-dark" id="startButton">START</button>
             </div>
+            <div class="col-lg-3">Correct</div>
+            <div class="col-lg-3">Incorrect</div>
         </div>
+    </div>
         
     </div>
 </body>
