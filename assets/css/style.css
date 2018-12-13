@@ -7,3 +7,9 @@
 {
     background-color: red;
 }
+
+div
+{
+    border-style: dashed;
+    color: grey
+}
