@@ -3,66 +3,68 @@ var clockRunning=false
 var count=questionTimoeout
 var expired=false
 var currentQuestion=""
+var alreadySeen=[]
+
 
 var question0 = 
 {
     question: "question0",
     possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
-    correctAnswer: [],
+    correctAnswer: 1,
 }
 var question1 = 
 {
     question: "question1",
     possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
-    correctAnswer: [],
+    correctAnswer: 2,
 }
 var question2 = 
 {
     question: "question2",
     possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
-    correctAnswer: [],
+    correctAnswer: 3,
 }
 var question3 = 
 {
     question: "question3",
     possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
-    correctAnswer: [],
+    correctAnswer: 0,
 }
 var question4 = 
 {
     question: "question4",
     possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
-    correctAnswer: [],
+    correctAnswer: 3,
 }
 var question5 = 
 {
     question: "question5",
     possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
-    correctAnswer: [],
+    correctAnswer: 2,
 }
 var question6 = 
 {
     question: "question6",
     possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
-    correctAnswer: [],
+    correctAnswer: 1,
 }
 var question7 = 
 {
     question: "question7",
     possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
-    correctAnswer: [],
+    correctAnswer: 0
 }
 var question8 = 
 {
     question: "question8",
     possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
-    correctAnswer: [],
+    correctAnswer: 3,
 }
 var question9 = 
 {
     question: "question9",
     possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
-    correctAnswer: [],
+    correctAnswer: 2,
 }
 var questionList=[question0 ,question1, question2, question3, question4, question5, question6, question7, question8, question9];
 
@@ -78,6 +80,16 @@ var questionObject = {
     "question1": question9,
     "question1": question0,
     }
+
+function drawQuestion()
+    {
+        $("#question").text(currentQuestion.question)
+        $("#possibleAnswer0.possibleAnswers").text(currentQuestion.possibleAnswers[0])
+        $("#possibleAnswer1.possibleAnswers").text(currentQuestion.possibleAnswers[1])
+        $("#possibleAnswer2.possibleAnswers").text(currentQuestion.possibleAnswers[2])
+        $("#possibleAnswer3.possibleAnswers").text(currentQuestion.possibleAnswers[3])
+    }
+
 function pickQuestion()
 {
     //random number 0-9
@@ -85,21 +97,29 @@ function pickQuestion()
     console.log(randomInt)
     currentQuestion=questionList[randomInt]
     console.log(currentQuestion.question)
+    expired=false
+    alreadySeen.push(currentQuestion)
+        for(i=0;i>alreadySeen.length;i++){
+            if(currentQuestion==alreadySeen[i]){
+                pickQuestion();
+            }
+        }
+    setTimeout(function ()
+        {
+            questionExpired()
+            //questionExpired=true; 
+            //alert("expired")
+            //pickQuestion();
+        }, questionTimoeout*1000);
 }
 
-function drawQuestion()
-{
-    $("#question").text(currentQuestion.question)
-    $("#possibleAnswer0.possibleAnswers").text(currentQuestion.possibleAnswers[0])
-    $("#possibleAnswer1.possibleAnswers").text(currentQuestion.possibleAnswers[1])
-    $("#possibleAnswer2.possibleAnswers").text(currentQuestion.possibleAnswers[2])
-    $("#possibleAnswer3.possibleAnswers").text(currentQuestion.possibleAnswers[3])
-}
+
 
 function questionExpired()
 {
-    alert("too slow")
+    //alert("too slow")
     expired=true;
+    count=questionTimoeout;
     pickQuestion();
     drawQuestion();
 }
@@ -123,31 +143,67 @@ $("#startButton").on("click", function(){
     //display currentQuestion
     //console.log(currentQuestion)
     //start 60 second timeout
-    setTimeout(function ()
+    /*setTimeout(function ()
         {
-            //questionExpired
-            questionExpired=true; 
-            alert("expired")
-            pickQuestion();
+            questionExpired()
+            //questionExpired=true; 
+            //alert("expired")
+            //pickQuestion();
         }, questionTimoeout*1000);
-    //start displaying countdown
+    //start displaying countdown*/
 })
-console.log(clockRunning)
+//console.log(clockRunning)
 
 $("#possibleAnswer0.possibleAnswers").on("click", function(){
     console.log("possibleAnswer0")
+    if(currentQuestion.correctAnswer===0)
+    {
+        alert("correct!")
+        pickQuestion()
+    }
+    else
+    {
+        alert("wrong!")
+    }
 });
 
 $("#possibleAnswer1.possibleAnswers").on("click", function(){
     console.log("possibleAnswer1")
+    if(currentQuestion.correctAnswer===1)
+    {
+        alert("correct!")
+        pickQuestion()
+    }
+    else
+    {
+        alert("wrong!")
+    }
 });
 
 $("#possibleAnswer2.possibleAnswers").on("click", function(){
     console.log("possibleAnswer2")
+    if(currentQuestion.correctAnswer===2)
+    {
+        alert("correct!")
+        pickQuestion()
+    }
+    else
+    {
+        alert("wrong!")
+    }
 });
 
 $("#possibleAnswer3.possibleAnswers").on("click", function(){
     console.log("possibleAnswer3")
+    if(currentQuestion.correctAnswer===3)
+    {
+        alert("correct!")
+        pickQuestion()
+    }
+    else
+    {
+        alert("wrong!")
+    }
 });
 //setInterval(function(){timer.time--}, 1000)
 }
