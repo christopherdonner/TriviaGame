@@ -6,7 +6,7 @@ var currentQuestion=""
 var alreadySeen=[]
 var correct=0
 var incorrect=0
-
+var currentGuess=""
 
 var question0 = 
 {
@@ -24,57 +24,57 @@ var question1 =
 }
 var question2 = 
 {
-    question: "question2",
-    possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
+    question: "Who calls Sailor Moon Meatball head?",
+    possibleAnswers: ["Rocket", "Sailor Mars", "Tuxedo Mask", "Darien Shields"],
     correctAnswer: 3,
     alreadyUsed: false
 }
 var question3 = 
 {
-    question: "question3",
-    possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
+    question: "What is the name of Sailor Moon's little sister",
+    possibleAnswers: ["Cibi Moon", "Sunny Moon", "Luna", "Star Moon"],
     correctAnswer: 0,
     alreadyUsed: false
 }
 var question4 = 
 {
-    question: "question4",
-    possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
+    question: "Who is the main bad guy in Sailor Moon",
+    possibleAnswers: ["Princess Barrow", "Queen Barrel", "Dutchess Rhodes", "Queen Beryl"],
     correctAnswer: 3,
     alreadyUsed: false
 }
 var question5 = 
 {
-    question: "question5",
-    possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
+    question: "Who is the most spiritual Sailor Scout?",
+    possibleAnswers: ["Sailor Moon", "Sailor Venus", "Sailor Mars", "Sailor Jupiter"],
     correctAnswer: 2,
     alreadyUsed: false
 }
 var question6 = 
 {
-    question: "question6",
-    possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
+    question: "Who is the most athletic Sailor Scout?",
+    possibleAnswers: ["Sailor Moon", "Sailor Jupiter", "answerC", "answerD"],
     correctAnswer: 1,
     alreadyUsed: false
 }
 var question7 = 
 {
-    question: "question7",
-    possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
+    question: "Who is the clumsiest Sailor Scout?",
+    possibleAnswers: ["Sailor Moon", "Sailor Mars", "Sailor Mercury", "Sailor Neptune"],
     correctAnswer: 0,
     alreadyUsed: false
 }
 var question8 = 
 {
-    question: "question8",
-    possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
+    question: "What character frequently saves the day and leaves a rose?",
+    possibleAnswers: ["Artemis", "Prince Rose", "Mister Mask", "Tuxedo Mask"],
     correctAnswer: 3,
     alreadyUsed: false
 }
 var question9 = 
 {
-    question: "question9",
-    possibleAnswers: ["answerA", "answerB", "answerC", "answerD"],
+    question: "What Sailor Scout had her own TV show before being discovered by the others?",
+    possibleAnswers: ["Sailor Neptune", "Sailur Uranus", "Sailor Venus", "Sailor Jupiter"],
     correctAnswer: 2,
     alreadyUsed: false
 }
@@ -100,6 +100,8 @@ function drawQuestion()
         $("#possibleAnswer1.possibleAnswers").text(currentQuestion.possibleAnswers[1])
         $("#possibleAnswer2.possibleAnswers").text(currentQuestion.possibleAnswers[2])
         $("#possibleAnswer3.possibleAnswers").text(currentQuestion.possibleAnswers[3])
+        $("#right").text(`Correct: ${correct}`)
+        $("#wrong").text(`Incorrect: ${incorrect}`)
     }
 
 function pickQuestion()
@@ -112,29 +114,37 @@ function pickQuestion()
     console.log(currentQuestion.question)
     expired=false
     alreadySeen.push(currentQuestion)
+    count=questionTimoeout
         for(i=0;i>alreadySeen.length;i++){
             if(currentQuestion==alreadySeen[i]){
                 pickQuestion();
             }
         }
+        clearTimeout();
     setTimeout(function ()
         {
-            questionExpired()
-            //questionExpired=true; 
-            //alert("expired")
-            //pickQuestion();
+            questionExpired();
         }, questionTimoeout*1000);
 }
 
-function rightAnswer(){}
+function rightAnswer(){
+    correct++
+    pickQuestion();
+    drawQuestion();
+    
+}
 
-function wrongAnswer(){}
+function wrongAnswer(){
+    incorrect++;
+    $("#question").text(`no, ${currentQuestion.correctAnswer} is the correct answer`)
+    setTimeout(function(){pickQuestion(); drawQuestion()})
+}
 
 function questionExpired()
 {
-    //alert("too slow")
     expired=true;
     count=questionTimoeout;
+    incorrect++;
     pickQuestion();
     drawQuestion();
 }
@@ -145,10 +155,10 @@ $("#startButton").on("click", function(){
     console.log("start");
     count=questionTimoeout;
     clockRunning=true;
-    console.log(clockRunning)
+    console.log(clockRunning);
     setInterval(function(){
         count--;
-        $("#timer").text(count)
+        $("#timer").text(count);
     }, 1000);
     $("#timer").text(count);
     //choose question at random
@@ -161,12 +171,11 @@ $("#possibleAnswer0.possibleAnswers").on("click", function(){
     console.log("possibleAnswer0")
     if(currentQuestion.correctAnswer===0)
     {
-        alert("correct!")
-        pickQuestion()
+        rightAnswer();
     }
     else
     {
-        alert("wrong!")
+        wrongAnswer();
     }
 });
 
@@ -174,13 +183,13 @@ $("#possibleAnswer1.possibleAnswers").on("click", function(){
     console.log("possibleAnswer1")
     if(currentQuestion.correctAnswer===1)
     {
-        alert("correct!")
-        rightAnswer()
+        //alert("correct!")
+        rightAnswer();
     }
     else
     {
-        alert("wrong!")
-        wrongAnswer()
+        //alert("wrong!")
+        wrongAnswer();
     }
 });
 
@@ -188,12 +197,11 @@ $("#possibleAnswer2.possibleAnswers").on("click", function(){
     console.log("possibleAnswer2")
     if(currentQuestion.correctAnswer===2)
     {
-        alert("correct!")
-        pickQuestion()
+        rightAnswer();
     }
     else
     {
-        alert("wrong!")
+        wrongAnswer();
     }
 });
 
@@ -201,12 +209,11 @@ $("#possibleAnswer3.possibleAnswers").on("click", function(){
     console.log("possibleAnswer3")
     if(currentQuestion.correctAnswer===3)
     {
-        alert("correct!")
-        pickQuestion()
+        rightAnswer();
     }
     else
     {
-        alert("wrong!")
+        wrongAnswer();
     }
 });
 //setInterval(function(){timer.time--}, 1000)
