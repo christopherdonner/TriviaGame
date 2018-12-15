@@ -7,6 +7,7 @@ var alreadySeen=[]
 var correct=0
 var incorrect=0
 var currentGuess=""
+var questionTimeoutCounter
 
 var question0 = 
 {
@@ -128,16 +129,24 @@ function pickQuestion()
 }
 
 function rightAnswer(){
-    correct++
+    expired=true;
+    correct++;
+    count=questionTimoeout;
     pickQuestion();
     drawQuestion();
     
 }
 
 function wrongAnswer(){
+    expired=true;
+    count=questionTimoeout;
     incorrect++;
-    $("#question").text(`no, ${currentQuestion.correctAnswer} is the correct answer`)
-    setTimeout(function(){pickQuestion(); drawQuestion()})
+
+    //console.log(currentQuestion.possibleAnswers[currentQuestion.correctAnswer])
+    $("#question").text(`no, ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]} is the correct answer`)
+    clearInterval();
+    clearTimeout();
+    setTimeout(function(){pickQuestion(); drawQuestion()}, 3000)
 }
 
 function questionExpired()

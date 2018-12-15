@@ -3,6 +3,9 @@ body{
     font-family: 'Indie Flower', cursive;
 }
 
+#timer{
+    font-size: 32px;
+}
 .possibleAnswers:hover 
 {
     background-color: red;
