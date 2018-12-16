@@ -110,7 +110,18 @@ function drawQuestion()
         $("#wrong").text(`Incorrect: ${incorrect}`)
     }
 
-    
+function clearPage()
+    {
+        $("#question").empty();
+        $("#question").empty();
+        $("#timer").empty();
+        $("#possibleAnswer0.possibleAnswers").empty();
+        $("#possibleAnswer1.possibleAnswers").empty();
+        $("#possibleAnswer2.possibleAnswers").empty();
+        $("#possibleAnswer3.possibleAnswers").empty();
+        $("#right").empty();
+        $("#wrong").empty();
+    }
 
 
 function gameOver()
@@ -189,10 +200,11 @@ function rightAnswer(){
     expired=true;
     count=questionTimeout;
     correct++;
+    clearPage();
     $("#question").css("color","green").text(`yeah! ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]} is correct!`)
     clearInterval(timerInterval);
     clearTimeout(mainQuestionTimeout);
-    var wrongAnswerTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count)}, messageTimeout*1000)
+    var wrongAnswerTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count); clearTimeout(wrongAnswerTimer)}, messageTimeout*1000)
     
 }
 
@@ -201,10 +213,11 @@ function wrongAnswer(){
     expired=true;
     count=questionTimeout;
     incorrect++;
+    clearPage();
     $("#question").css("color","red").text(`no, the correct answer is ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]}`)
     clearInterval(timerInterval);
     clearTimeout(mainQuestionTimeout);
-    var wrongAnswerTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count)}, messageTimeout*1000)
+    var wrongAnswerTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count); clearTimeout(wrongAnswerTimer)}, messageTimeout*1000)
 }
 
 function questionExpired()
@@ -213,10 +226,11 @@ function questionExpired()
     expired=true;
     count=questionTimeout;
     incorrect++;
+    clearPage();
     $("#question").css("color","red").text(`too slow. the answer is ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]}`)
     clearInterval(timerInterval);
     clearTimeout(mainQuestionTimeout);
-    var expiredNoticeTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count)}, messageTimeout*1000)
+    var expiredNoticeTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count); clearTimeout(expiredNoticeTimer)}, messageTimeout*1000)
 }
 
 window.onload = function() {
@@ -224,6 +238,7 @@ window.onload = function() {
 $("#resetButton").css("visibility", "hidden")
 
 $("#startButton").on("click", function(){
+    $("#resetButton").css("visibility", "hidden")
     console.log("start");
     count=questionTimeout;
     clockRunning=true;
