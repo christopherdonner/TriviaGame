@@ -1,5 +1,5 @@
 var messageTimeout=2
-var questionTimeout=10
+var questionTimeout=3
 var clockRunning=false
 var count=questionTimeout
 var expired=false
@@ -110,31 +110,64 @@ function drawQuestion()
         $("#wrong").text(`Incorrect: ${incorrect}`)
     }
 
-function reset()
-{
-    totalQuestions=0;
-    incorrect=0;
-    correct=0;
+    
 
-}
 
 function gameOver()
 {
+    console.log("game over")
+    clearInterval(timerInterval);
+    clearTimeout(mainQuestionTimeout);
+    count=0;
+    clockRunning=false
+    //clearInterval();
+    //clearTimeout();
+    $("timer").empty();
+    $("#question").empty();
+    $("#possibleAnswer0.possibleAnswers").empty();
+    $("#possibleAnswer1.possibleAnswers").empty();
+    $("#possibleAnswer2.possibleAnswers").empty();
+    $("#possibleAnswer3.possibleAnswers").empty();
     $("question").text("game over!")
+    $("#resetButton").css("visibility", "visible")
+    $("#resetButton").on("click", function(){reset();})
+}
 
-    $("#resetButton").css("visibility", "hidden")
+function reset()
+{
+    $("#question").empty();
+    $("#question").empty();
+    $("#timer").empty();
+    $("#possibleAnswer0.possibleAnswers").empty();
+    $("#possibleAnswer1.possibleAnswers").empty();
+    $("#possibleAnswer2.possibleAnswers").empty();
+    $("#possibleAnswer3.possibleAnswers").empty();
+    $("#right").empty();
+    $("#wrong").empty();
+    $("#startButton").css("visibility", "visible")
+    totalQuestions=0;
+    incorrect=0;
+    correct=0;
+    currentQuestion=""
+    alreadySeen=[]
+    clearInterval(timerInterval);
+    clearTimeout(mainQuestionTimeout);
+    $("resetButton").css("visibility", "hidden")
 }
 
 function pickQuestion()
 {
     totalQuestions++;
     console.log(totalQuestions)
-    if(totalQuestions==questionList.length){gameOver()}
+    if(totalQuestions>=questionList.length){gameOver()}
     var randomInt=Math.floor(Math.random() *10)
     console.log(randomInt)
     for(i=0;i<alreadySeen.length;i++){
-        if(randomInt===alreadySeen[i])
+        if(randomInt===alreadySeen[i]){
+            while(randomInt===alreadySeen[i]){
         randomInt=Math.floor(Math.random() *10)
+            }
+        }
     }
     alreadySeen.push(randomInt)
     currentQuestion=questionList[randomInt]
