@@ -120,8 +120,6 @@ function gameOver()
     clearTimeout(mainQuestionTimeout);
     count=0;
     clockRunning=false
-    //clearInterval();
-    //clearTimeout();
     $("timer").empty();
     $("#question").empty();
     $("#possibleAnswer0.possibleAnswers").empty();
@@ -175,10 +173,10 @@ function pickQuestion()
     console.log(currentQuestion.question)
     expired=false
     count=questionTimeout
-        for(i=0;i>alreadySeen.length;i++){
+        /*for(i=0;i>alreadySeen.length;i++){
             if(currentQuestion.alreadyUsed===true){
                 pickQuestion();
-            }
+            }*/
         }
     clearTimeout(mainQuestionTimeout);
     mainQuestionTimeout = setTimeout(function ()

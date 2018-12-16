@@ -3,14 +3,26 @@ body{
     font-family: 'Indie Flower', cursive;
 }
 
+#question
+{
+    text-align: center
+}
 #timer{
     font-size: 64px;
     font-weight: bolder
 }
+
+.possibleAnswers
+{
+    text-align: center;
+}
+
 .possibleAnswers:hover 
 {
     background-color: red;
+    
 }
+
 /*
 div
 {
