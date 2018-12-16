@@ -173,11 +173,6 @@ function pickQuestion()
     console.log(currentQuestion.question)
     expired=false
     count=questionTimeout
-        /*for(i=0;i>alreadySeen.length;i++){
-            if(currentQuestion.alreadyUsed===true){
-                pickQuestion();
-            }*/
-        }
     clearTimeout(mainQuestionTimeout);
     mainQuestionTimeout = setTimeout(function ()
         {questionExpired();
