@@ -1,13 +1,15 @@
-var questionTimoeout = 10;
+var questionTimeout = 10;
 var clockRunning=false
-var count=questionTimoeout
+var count=questionTimeout
 var expired=false
 var currentQuestion=""
 var alreadySeen=[]
 var correct=0
 var incorrect=0
 var currentGuess=""
-var questionTimeoutCounter
+var mainQuestionTimeout
+var timerInterval
+
 
 var question0 = 
 {
@@ -116,67 +118,89 @@ function pickQuestion()
     console.log(currentQuestion.question)
     expired=false
     alreadySeen.push(currentQuestion)
-    count=questionTimoeout
+    count=questionTimeout
         for(i=0;i>alreadySeen.length;i++){
-            if(currentQuestion==alreadySeen[i]){
+            if(currentQuestion.alreadyUsed===true){
                 pickQuestion();
             }
         }
-        clearTimeout();
-    setTimeout(function ()
+    clearTimeout(mainQuestionTimeout);
+    mainQuestionTimeout = setTimeout(function ()
         {questionExpired();
-        }, questionTimoeout*1000);
+        }, questionTimeout*1000);
+    clearInterval(timerInterval)
+    timerInterval = setInterval(function(){
+            count--;
+            $("#timer").text(count);
+        }, 1000);
 }
 
 function rightAnswer(){
-    expired=true;
+    count=questionTimeout;
+    clockRunning=true;
     correct++;
-    count=questionTimoeout;
+    console.log(clockRunning);
+    /*setInterval(function(){
+        count--;
+        $("#timer").text(count);
+    }, 1000);*/
+    $("#timer").text(count);
+    //choose question at random
     pickQuestion();
     drawQuestion();
+    $("#timer").text(count);
     
 }
 
 function wrongAnswer(){
     $("#timer").empty();
     expired=true;
-    count=questionTimoeout;
+    count=questionTimeout;
     incorrect++;
 
     //console.log(currentQuestion.possibleAnswers[currentQuestion.correctAnswer])
     $("#question").css("color","red").text(`no, ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]} is the correct answer`)
-    clearInterval();
-    clearTimeout();
-    setTimeout(function(){pickQuestion(); drawQuestion()}, 3000)
+    clearInterval(timerInterval);
+    clearTimeout(mainQuestionTimeout);
+    var wrongAnswerTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count)}, 3000)
 }
 
 function questionExpired()
 {
-    expired=true;
-    count=questionTimoeout;
-    incorrect++;
-    pickQuestion();
-    drawQuestion();
-}
-
-window.onload = function() {
-
-$("#startButton").on("click", function(){
-    console.log("start");
-    count=questionTimoeout;
+    count=questionTimeout;
     clockRunning=true;
+    incorrect++;
     console.log(clockRunning);
-    setInterval(function(){
+    /*setInterval(function(){
         count--;
         $("#timer").text(count);
-    }, 1000);
+    }, 1000);*/
     $("#timer").text(count);
     //choose question at random
     pickQuestion();
     drawQuestion();
     $("#timer").text(count);
+}
 
+window.onload = function() {
 
+    //upon clicking start button
+$("#startButton").on("click", function(){
+    console.log("start");
+    count=questionTimeout;
+    clockRunning=true;
+    console.log(clockRunning);
+    /*setInterval(function(){
+        count--;
+        $("#timer").text(count);
+    }, 1000);*/
+    $("#timer").text(count);
+    $("#startButton").css("visibility", "hidden") //hide start button
+    //choose question at random
+    pickQuestion();
+    drawQuestion();
+
+//intent to re-factor this later
 $("#possibleAnswer0.possibleAnswers").on("click", function(){
     console.log("possibleAnswer0")
     if(currentQuestion.correctAnswer===0)
