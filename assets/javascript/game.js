@@ -19,7 +19,7 @@ var question0 =
 var question1 = 
 {
     question: "What are Sailor Moon's cats named?",
-    possibleAnswers: ["Lilu and Aphrodite", "Lunar and Astro", "Luna and Artemis", "answerD"],
+    possibleAnswers: ["Lilu and Aphrodite", "Lunar and Astro", "Luna and Artemis", "Tony and Monica"],
     correctAnswer: 2,
     alreadyUsed: false
 }
@@ -54,7 +54,7 @@ var question5 =
 var question6 = 
 {
     question: "Who is the most athletic Sailor Scout?",
-    possibleAnswers: ["Sailor Moon", "Sailor Jupiter", "answerC", "answerD"],
+    possibleAnswers: ["Sailor Moon", "Sailor Jupiter", "Sailor Neptune", "Sailor Uranus"],
     correctAnswer: 1,
     alreadyUsed: false
 }
@@ -96,6 +96,7 @@ var questionObject = {
 
 function drawQuestion()
     {
+        $("#question").css("color", "white");
         $("#question").text(currentQuestion.question)
         $("#possibleAnswer0.possibleAnswers").text(currentQuestion.possibleAnswers[0])
         $("#possibleAnswer1.possibleAnswers").text(currentQuestion.possibleAnswers[1])
@@ -123,8 +124,7 @@ function pickQuestion()
         }
         clearTimeout();
     setTimeout(function ()
-        {
-            questionExpired();
+        {questionExpired();
         }, questionTimoeout*1000);
 }
 
@@ -138,12 +138,13 @@ function rightAnswer(){
 }
 
 function wrongAnswer(){
+    $("#timer").empty();
     expired=true;
     count=questionTimoeout;
     incorrect++;
 
     //console.log(currentQuestion.possibleAnswers[currentQuestion.correctAnswer])
-    $("#question").text(`no, ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]} is the correct answer`)
+    $("#question").css("color","red").text(`no, ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]} is the correct answer`)
     clearInterval();
     clearTimeout();
     setTimeout(function(){pickQuestion(); drawQuestion()}, 3000)
