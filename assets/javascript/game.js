@@ -1,5 +1,5 @@
 var messageTimeout=2
-var questionTimeout=3
+var questionTimeout=15
 var clockRunning=false
 var count=questionTimeout
 var expired=false
