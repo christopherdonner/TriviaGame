@@ -1,4 +1,5 @@
-var questionTimeout = 10;
+var messageTimeout=2
+var questionTimeout=10
 var clockRunning=false
 var count=questionTimeout
 var expired=false
@@ -9,6 +10,7 @@ var incorrect=0
 var currentGuess=""
 var mainQuestionTimeout
 var timerInterval
+var totalQuestions=0
 
 
 var question0 = 
@@ -108,16 +110,37 @@ function drawQuestion()
         $("#wrong").text(`Incorrect: ${incorrect}`)
     }
 
+function reset()
+{
+    totalQuestions=0;
+    incorrect=0;
+    correct=0;
+
+}
+
+function gameOver()
+{
+    $("question").text("game over!")
+
+    $("#resetButton").css("visibility", "hidden")
+}
+
 function pickQuestion()
 {
-    //random number 0-9
+    totalQuestions++;
+    console.log(totalQuestions)
+    if(totalQuestions==questionList.length){gameOver()}
     var randomInt=Math.floor(Math.random() *10)
     console.log(randomInt)
+    for(i=0;i<alreadySeen.length;i++){
+        if(randomInt===alreadySeen[i])
+        randomInt=Math.floor(Math.random() *10)
+    }
+    alreadySeen.push(randomInt)
     currentQuestion=questionList[randomInt]
     questionList[randomInt].alreadyUsed=true
     console.log(currentQuestion.question)
     expired=false
-    alreadySeen.push(currentQuestion)
     count=questionTimeout
         for(i=0;i>alreadySeen.length;i++){
             if(currentQuestion.alreadyUsed===true){
@@ -136,19 +159,14 @@ function pickQuestion()
 }
 
 function rightAnswer(){
+    $("#timer").empty();
+    expired=true;
     count=questionTimeout;
-    clockRunning=true;
     correct++;
-    console.log(clockRunning);
-    /*setInterval(function(){
-        count--;
-        $("#timer").text(count);
-    }, 1000);*/
-    $("#timer").text(count);
-    //choose question at random
-    pickQuestion();
-    drawQuestion();
-    $("#timer").text(count);
+    $("#question").css("color","green").text(`yeah! ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]} is correct!`)
+    clearInterval(timerInterval);
+    clearTimeout(mainQuestionTimeout);
+    var wrongAnswerTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count)}, messageTimeout*1000)
     
 }
 
@@ -157,46 +175,35 @@ function wrongAnswer(){
     expired=true;
     count=questionTimeout;
     incorrect++;
-
-    //console.log(currentQuestion.possibleAnswers[currentQuestion.correctAnswer])
-    $("#question").css("color","red").text(`no, ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]} is the correct answer`)
+    $("#question").css("color","red").text(`no, the correct answer is ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]}`)
     clearInterval(timerInterval);
     clearTimeout(mainQuestionTimeout);
-    var wrongAnswerTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count)}, 3000)
+    var wrongAnswerTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count)}, messageTimeout*1000)
 }
 
 function questionExpired()
 {
+    $("#timer").empty();
+    expired=true;
     count=questionTimeout;
-    clockRunning=true;
     incorrect++;
-    console.log(clockRunning);
-    /*setInterval(function(){
-        count--;
-        $("#timer").text(count);
-    }, 1000);*/
-    $("#timer").text(count);
-    //choose question at random
-    pickQuestion();
-    drawQuestion();
-    $("#timer").text(count);
+    $("#question").css("color","red").text(`too slow. the answer is ${currentQuestion.possibleAnswers[currentQuestion.correctAnswer]}`)
+    clearInterval(timerInterval);
+    clearTimeout(mainQuestionTimeout);
+    var expiredNoticeTimer = setTimeout(function(){pickQuestion(); drawQuestion(); $("#timer").text(count)}, messageTimeout*1000)
 }
 
 window.onload = function() {
 
-    //upon clicking start button
+$("#resetButton").css("visibility", "hidden")
+
 $("#startButton").on("click", function(){
     console.log("start");
     count=questionTimeout;
     clockRunning=true;
     console.log(clockRunning);
-    /*setInterval(function(){
-        count--;
-        $("#timer").text(count);
-    }, 1000);*/
     $("#timer").text(count);
-    $("#startButton").css("visibility", "hidden") //hide start button
-    //choose question at random
+    $("#startButton").css("visibility", "hidden")
     pickQuestion();
     drawQuestion();
 
@@ -250,6 +257,5 @@ $("#possibleAnswer3.possibleAnswers").on("click", function(){
         wrongAnswer();
     }
 });
-//setInterval(function(){timer.time--}, 1000)
 })
 }
